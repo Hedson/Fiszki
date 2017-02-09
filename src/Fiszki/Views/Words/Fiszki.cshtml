@@ -1,0 +1,103 @@
+@model IEnumerable<Fiszki.Models.Word>
+
+@{
+    ViewData["Title"] = "Fiszki";
+}
+
+<h2>Fiszki</h2>
+
+<style type="text/css">
+    .hidden {
+        display: none;
+    }
+
+        
+    .visible {
+        display: block;
+    }
+
+    .pole{
+        /*padding-left:400px;*/
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-right: -50%;
+        transform: translate(-50%, -50%);
+        font-size:30px;
+    }
+    
+    }
+</style>
+
+    <div class="pole">
+        @*@foreach (var item in Model.OrderBy(a => a.EnglishWord))*@
+        @foreach (var item in Model.OrderBy(q => Guid.NewGuid()).Take(1))
+        {
+            <div style="background: gray; text-align:center" class="visible" id="englishWord">
+                    <dd>
+                        @Html.DisplayFor(modelItem => item.EnglishWord)
+                    </dd>
+            </div>
+            <div style="background: gray; text-align:center" class="hidden" id="polishWord">
+                <dd>
+                    @Html.DisplayFor(modelitem => item.PolishWord)
+                </dd>
+            </div>
+        }
+
+
+        @*//Check button.*@
+        <div class="visible" id="check_Btn">
+            <input type="submit" value="CHECK" class="btn btn-default" />
+        </div>
+
+
+        @*//Yes button.*@
+        <div class="hidden" id="yes_Btn">
+            @using (Html.BeginForm("Fiszki", "Words"))
+            {
+                <input type="submit" href="" value="YES" class="btn btn-default" />
+            }
+        </div>
+
+
+        @*//No button.*@
+        <div class="hidden" id="no_Btn">
+            @using (Html.BeginForm("Fiszki", "Words"))
+            {
+                <input type="submit" href="#" value="NO" class="btn btn-default" />
+            }
+        </div>
+
+
+
+
+        <script type="text/javascript">
+
+            var resultsDiv = document.getElementById('polishWord');
+            var resultsBtn = document.getElementById('check_Btn');
+
+            var yesBtn = document.getElementById('yes_Btn');
+            var noBtn = document.getElementById('no_Btn');
+
+
+            resultsBtn.onclick = function () {
+                resultsDiv.setAttribute('class', 'visible');
+                resultsBtn.setAttribute('class', 'hidden');
+                yesBtn.setAttribute('class', 'visible');
+                noBtn.setAttribute('class', 'visible');
+            };
+
+            yesBtn.onclick = function () {
+                Html.ActionLink("some text", "Index", "Home");
+                RedirectToAction("Home", "Index");
+            };
+            noBtn.onclick = function () {
+                return RedirectToAction("Index", "Home");
+            };
+
+
+        </script>
+        
+    </div>
