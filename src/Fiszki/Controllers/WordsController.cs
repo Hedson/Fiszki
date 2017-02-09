@@ -13,6 +13,7 @@ namespace Fiszki.Controllers
     public class WordsController : Controller
     {
         private readonly WordContext _context;
+        private static int score = 0;
 
         public WordsController(WordContext context)
         {
@@ -27,7 +28,15 @@ namespace Fiszki.Controllers
 
         public async Task<IActionResult> Fiszki()
         {
+            ViewBag.Score = score.ToString();
             return View(await _context.Words.ToListAsync());
+        }
+
+
+        public ActionResult FiszkiAfterYes()
+        {
+            score++;
+            return RedirectToAction("Fiszki", "Words");
         }
 
         // GET: Words/Details/5

@@ -5,6 +5,8 @@
 }
 
 <h2>Fiszki</h2>
+<h2>Score:</h2>
+<h3>@ViewBag.Score</h3>
 
 <style type="text/css">
     .hidden {
@@ -45,7 +47,7 @@
                 </dd>
             </div>
         }
-
+        
 
         @*//Check button.*@
         <div class="visible" id="check_Btn">
@@ -55,21 +57,23 @@
 
         @*//Yes button.*@
         <div class="hidden" id="yes_Btn">
-            @using (Html.BeginForm("Fiszki", "Words"))
+     
             {
-                <input type="submit" href="" value="YES" class="btn btn-default" />
+                <input type="submit" href="" value="YES" class="btn btn-default" 
+                 onclick="location.href='@Url.Action("FiszkiAfterYes", "Words")'"      />
             }
         </div>
+
 
 
         @*//No button.*@
         <div class="hidden" id="no_Btn">
-            @using (Html.BeginForm("Fiszki", "Words"))
+            @*@using (Html.BeginForm("Fiszki", "Words"))*@
             {
-                <input type="submit" href="#" value="NO" class="btn btn-default" />
+                <input type="submit" href="#" value="NO" class="btn btn-default" 
+                       onclick="location.href='@Url.Action("Fiszki", "Words")'" />
             }
         </div>
-
 
 
 
@@ -83,6 +87,7 @@
 
 
             resultsBtn.onclick = function () {
+                
                 resultsDiv.setAttribute('class', 'visible');
                 resultsBtn.setAttribute('class', 'hidden');
                 yesBtn.setAttribute('class', 'visible');
@@ -92,6 +97,7 @@
             yesBtn.onclick = function () {
                 Html.ActionLink("some text", "Index", "Home");
                 RedirectToAction("Home", "Index");
+                Application["GlobalVar"] = 1234;
             };
             noBtn.onclick = function () {
                 return RedirectToAction("Index", "Home");
