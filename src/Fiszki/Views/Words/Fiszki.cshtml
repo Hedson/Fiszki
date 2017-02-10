@@ -8,6 +8,9 @@
 <h2>Score:</h2>
 <h3>@ViewBag.Score</h3>
 
+<h2>Chances left:</h2>
+<h3>@ViewBag.hitPoints</h3>
+
 <style type="text/css">
     .hidden {
         display: none;
@@ -29,7 +32,7 @@
         font-size:30px;
     }
     
-    }
+
 </style>
 
     <div class="pole">
@@ -71,7 +74,7 @@
             @*@using (Html.BeginForm("Fiszki", "Words"))*@
             {
                 <input type="submit" href="#" value="NO" class="btn btn-default" 
-                       onclick="location.href='@Url.Action("Fiszki", "Words")'" />
+                       onclick="location.href='@Url.Action("FiszkiAfterNo", "Words")'" />
             }
         </div>
 

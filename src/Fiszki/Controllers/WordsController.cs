@@ -14,6 +14,8 @@ namespace Fiszki.Controllers
     {
         private readonly WordContext _context;
         private static int score = 0;
+        private static int hitPoints = 3;
+
 
         public WordsController(WordContext context)
         {
@@ -28,14 +30,44 @@ namespace Fiszki.Controllers
 
         public async Task<IActionResult> Fiszki()
         {
+            if(hitPoints ==0)
+            {
+                int tempScore = score;
+                score = 0;
+                hitPoints = 3;
+                // Use REdirectToAction with new object as parametr, that object is used to crete or edit ranking user.
+                if (User.Identity.IsAuthenticated)
+                {
+                    string Text = User.Identity.Name;   // Initialize string that is already logged user Email.
+                    return RedirectToAction("CreateRank", "Words", new { Email = Text, Points = tempScore });
+                }
+            }
+
             ViewBag.Score = score.ToString();
+            ViewBag.hitPoints = hitPoints.ToString();
             return View(await _context.Words.ToListAsync());
+        }
+
+        public async Task<IActionResult> CreateRank([Bind("ID,Email,Points")] Rank rank)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(rank);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Fiszki");
         }
 
 
         public ActionResult FiszkiAfterYes()
         {
             score++;
+            return RedirectToAction("Fiszki", "Words");
+        }
+        public ActionResult FiszkiAfterNo()
+        {
+            hitPoints--;
             return RedirectToAction("Fiszki", "Words");
         }
 

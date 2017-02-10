@@ -8,14 +8,29 @@ using Fiszki.Data;
 namespace Fiszki.Migrations
 {
     [DbContext(typeof(WordContext))]
-    [Migration("20170209160520_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20170210155423_SecondMigration")]
+    partial class SecondMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Fiszki.Models.Rank", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Email")
+                        .HasAnnotation("MaxLength", 50);
+
+                    b.Property<int>("Points");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Ranks");
+                });
 
             modelBuilder.Entity("Fiszki.Models.Word", b =>
                 {

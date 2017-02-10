@@ -16,6 +16,21 @@ namespace Fiszki.Migrations
                 .HasAnnotation("ProductVersion", "1.0.1")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("Fiszki.Models.Rank", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Email")
+                        .HasAnnotation("MaxLength", 50);
+
+                    b.Property<int>("Points");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Ranks");
+                });
+
             modelBuilder.Entity("Fiszki.Models.Word", b =>
                 {
                     b.Property<int>("ID")

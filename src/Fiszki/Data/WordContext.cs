@@ -14,5 +14,6 @@ namespace Fiszki.Data
         }
 
             public DbSet<Word> Words { get; set; }
+            public DbSet<Rank> Ranks { get; set; }
     }
 }
