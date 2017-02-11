@@ -52,6 +52,7 @@
 
     <div class="col-md-3">
         @*@foreach (var item in Model.OrderBy(a => a.EnglishWord))*@
+        @*Take one random model item from All Word models in database.*@ 
         @foreach (var item in Model.OrderBy(q => Guid.NewGuid()).Take(1))
         {
             <div class="english-area">

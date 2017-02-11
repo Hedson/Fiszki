@@ -1,0 +1,51 @@
+@model IEnumerable<Fiszki.Models.Rank>
+
+@{
+    ViewData["Title"] = "Ranking";
+}
+
+<h2>Ranking</h2>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Rank
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Points)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+  
+@{int i = 1;}
+@foreach (var item in Model.OrderByDescending(m => m.Points))
+{
+
+
+            <tr>
+                <td>
+                    <span>@i</span>
+                    @{i++;}
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Points)
+                </td>
+            </tr>
+           
+}
+
+
+    </tbody>
+
+</table>

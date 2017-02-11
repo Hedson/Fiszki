@@ -26,6 +26,12 @@ namespace Fiszki.Controllers
             return View(await _context.Ranks.ToListAsync());
         }
 
+        // GET: Ranks
+        public async Task<IActionResult> Ranking()
+        {
+            return View(await _context.Ranks.ToListAsync());
+        }
+
         // GET: Ranks/Details/5
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)

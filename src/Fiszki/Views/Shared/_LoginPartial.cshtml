@@ -11,6 +11,7 @@
             @if (User.IsInRole("Admin"))
             {
                 <li><a asp-area="" asp-controller="Words" asp-action="Index">Words edition[admin]</a></li>
+                <li><a asp-area="" asp-controller="Ranks" asp-action="Index">Ranking edition[admin]</a></li>
             }
             <li>
                 <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
