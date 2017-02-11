@@ -10,7 +10,7 @@ namespace Fiszki.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("Fiszki","Words");
         }
 
         public IActionResult About()
