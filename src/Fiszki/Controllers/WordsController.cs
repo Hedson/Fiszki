@@ -33,26 +33,30 @@ namespace Fiszki.Controllers
 
         public async Task<IActionResult> Fiszki()
         {
+            // Convert session to nullable Int32 variable.
             int? number = HttpContext.Session.GetInt32(SessionKeyScore);
 
-            if (number.HasValue)
+
+            // Convert value from nullable int to int.
+            if (number.HasValue) 
                 score = number.Value;
 
-
+            // Convert session to nullable Int32 variable.
             int? numberHP = HttpContext.Session.GetInt32(SessionKeyHitPoints);
 
+            // Convert value from nullable int to int.
             if (numberHP.HasValue)
                 hitPoints = numberHP.Value;
 
-
+            // Check, if hitPoints == 0, then you lose game and program go to this block of code.
             if (hitPoints ==0)
             {
 
                 int tempScore = score;
                 score = 0;
                 hitPoints = 3;
-                HttpContext.Session.SetInt32(SessionKeyScore, score);
-                HttpContext.Session.SetInt32(SessionKeyHitPoints, hitPoints);
+                HttpContext.Session.SetInt32(SessionKeyScore, score);   // Write local variable value(0) to session.
+                HttpContext.Session.SetInt32(SessionKeyHitPoints, hitPoints); // Write local variable value(3) to session.
 
                 // Use REdirectToAction with new object as parametr, that object is used to crete or edit ranking user.
                 if (User.Identity.IsAuthenticated)
@@ -63,14 +67,19 @@ namespace Fiszki.Controllers
                 
             }
 
-            ViewBag.Score = score.ToString();
+            //Create ViewBags to transfer value to the view.
+            ViewBag.Score = score.ToString();  
             ViewBag.hitPoints = hitPoints.ToString();
+
+            //Return view, paramerer is a list of all objects from database table Words.
             return View(await _context.Words.ToListAsync());
         }
 
 
+        // Action created to support create new rank value when user lose 3 chances and the game.
         public async Task<IActionResult> CreateRank([Bind("ID,Email,Points")] Rank rank)
         {
+            // If model that we get as a parameter is valid, we can add new record to database table.
             if (ModelState.IsValid)
             {
                 _context.Add(rank);
@@ -83,31 +92,38 @@ namespace Fiszki.Controllers
 
         public ActionResult FiszkiAfterYes()
         {
-            //Create session
+            // Convert session to nullable Int32 variable.
             int? number = HttpContext.Session.GetInt32(SessionKeyScore);
-  
+
+            // Convert value from nullable int to int.
             if (number.HasValue)
                 score = number.Value;
 
             score++;  // Increment score var value
-      
+
+            // Write local variable value to session.
             HttpContext.Session.SetInt32(SessionKeyScore, score);
 
-        
+            // increment score local variable
             score++;
+            //Return action Fiszki in controller Words.
             return RedirectToAction("Fiszki", "Words");
         }
         public ActionResult FiszkiAfterNo()
         {
+            // Convert session to nullable Int32 variable.
             int? numberHP = HttpContext.Session.GetInt32(SessionKeyHitPoints);
 
+            // Convert value from nullable int to int.
             if (numberHP.HasValue)
                 hitPoints = numberHP.Value;
 
             hitPoints--;  // Increment score var value
 
+            // Write local variable value(3) to session.
             HttpContext.Session.SetInt32(SessionKeyHitPoints, hitPoints);
 
+            //Return action Fiszki in controller Words.
             return RedirectToAction("Fiszki", "Words");
         }
 
