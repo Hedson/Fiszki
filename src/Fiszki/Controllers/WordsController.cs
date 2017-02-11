@@ -17,8 +17,8 @@ namespace Fiszki.Controllers
         private readonly WordContext _context;
         private static int score = 0;
         private static int hitPoints = 3;
-        const string SessionKeyScore = "5";
-        const string SessionKeyHitPoints = "3";
+        const string SessionKeyScore = "_Score";
+        const string SessionKeyHitPoints = "_HitPoints";
 
         public WordsController(WordContext context)
         {
