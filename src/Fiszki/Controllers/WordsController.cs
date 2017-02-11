@@ -58,7 +58,7 @@ namespace Fiszki.Controllers
                 HttpContext.Session.SetInt32(SessionKeyScore, score);   // Write local variable value(0) to session.
                 HttpContext.Session.SetInt32(SessionKeyHitPoints, hitPoints); // Write local variable value(3) to session.
 
-                // Use REdirectToAction with new object as parametr, that object is used to crete or edit ranking user.
+                // Use REdirectToAction with new object as parametr, that object is used to crete or edit user ranking.
                 if (User.Identity.IsAuthenticated)
                 {
                     string Text = User.Identity.Name;   // Initialize string that is already logged user Email.
