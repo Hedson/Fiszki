@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Fiszki.Data;
 using Fiszki.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Fiszki.Controllers
 {
@@ -48,6 +49,7 @@ namespace Fiszki.Controllers
             return View(await _context.Words.ToListAsync());
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateRank([Bind("ID,Email,Points")] Rank rank)
         {
             if (ModelState.IsValid)
@@ -71,7 +73,9 @@ namespace Fiszki.Controllers
             return RedirectToAction("Fiszki", "Words");
         }
 
+
         // GET: Words/Details/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -88,7 +92,9 @@ namespace Fiszki.Controllers
             return View(word);
         }
 
+
         // GET: Words/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -97,6 +103,7 @@ namespace Fiszki.Controllers
         // POST: Words/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,EnglishWord,PolishWord")] Word word)
@@ -111,6 +118,7 @@ namespace Fiszki.Controllers
         }
 
         // GET: Words/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -129,6 +137,7 @@ namespace Fiszki.Controllers
         // POST: Words/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,EnglishWord,PolishWord")] Word word)
@@ -162,6 +171,7 @@ namespace Fiszki.Controllers
         }
 
         // GET: Words/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -179,6 +189,7 @@ namespace Fiszki.Controllers
         }
 
         // POST: Words/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

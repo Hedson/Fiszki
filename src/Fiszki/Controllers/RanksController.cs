@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Fiszki.Data;
 using Fiszki.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Fiszki.Controllers
 {
@@ -26,6 +27,7 @@ namespace Fiszki.Controllers
         }
 
         // GET: Ranks/Details/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,6 +45,7 @@ namespace Fiszki.Controllers
         }
 
         // GET: Ranks/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -65,6 +68,7 @@ namespace Fiszki.Controllers
         }
 
         // GET: Ranks/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -83,6 +87,7 @@ namespace Fiszki.Controllers
         // POST: Ranks/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Email,Points")] Rank rank)
@@ -116,6 +121,7 @@ namespace Fiszki.Controllers
         }
 
         // GET: Ranks/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -133,6 +139,7 @@ namespace Fiszki.Controllers
         }
 
         // POST: Ranks/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
