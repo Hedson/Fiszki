@@ -1,15 +1,6 @@
 @model IEnumerable<Fiszki.Models.Word>
 
-@{
-    ViewData["Title"] = "Fiszki";
-}
 
-<h2>Fiszki</h2>
-<h2>Score:</h2>
-<h3>@ViewBag.Score</h3>
-
-<h2>Chances left:</h2>
-<h3>@ViewBag.hitPoints</h3>
 
 <style type="text/css">
     .hidden {
@@ -21,92 +12,124 @@
         display: block;
     }
 
-    .pole{
-        /*padding-left:400px;*/
-        margin: 0;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        margin-right: -50%;
-        transform: translate(-50%, -50%);
+    .english-area{
+        margin-top:7%;
         font-size:30px;
-    }
-    
+        width:200px;
+        height:75px;
+        background: gray;
+        text-align: center;
 
+    }
+    .polish-area{
+        font-size:30px;
+        width:200px;
+        height:75px;
+        background: green;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    input{
+        height:70px;
+        width:130px;
+    }
 </style>
 
-    <div class="pole">
+
+<div class="row">
+
+    <div class="col-md-4">
+        @{
+            ViewData["Title"] = "Fiszki";
+        }
+        <div class="points">
+            <h2>Fiszki</h2>
+            <h2>Score: @ViewBag.Score</h2>
+            <h2>Chances left: @ViewBag.hitPoints</h2>
+        </div>
+    </div>
+
+    <div class="col-md-3">
         @*@foreach (var item in Model.OrderBy(a => a.EnglishWord))*@
         @foreach (var item in Model.OrderBy(q => Guid.NewGuid()).Take(1))
         {
-            <div style="background: gray; text-align:center" class="visible" id="englishWord">
+            <div class="english-area">
+                <div class="visible" id="englishWord">
                     <dd>
                         @Html.DisplayFor(modelItem => item.EnglishWord)
                     </dd>
+                </div>
             </div>
-            <div style="background: gray; text-align:center" class="hidden" id="polishWord">
-                <dd>
-                    @Html.DisplayFor(modelitem => item.PolishWord)
-                </dd>
+            <div class="polish-area">
+                <div style="background: green; " class="hidden" id="polishWord">
+                    <dd>
+                        @Html.DisplayFor(modelitem => item.PolishWord)
+                    </dd>
+                </div>
             </div>
         }
-        
 
-        @*//Check button.*@
-        <div class="visible" id="check_Btn">
-            <input type="submit" value="CHECK" class="btn btn-default" />
-        </div>
-
-
-        @*//Yes button.*@
-        <div class="hidden" id="yes_Btn">
-     
-            {
-                <input type="submit" href="" value="YES" class="btn btn-default" 
-                 onclick="location.href='@Url.Action("FiszkiAfterYes", "Words")'"      />
-            }
-        </div>
-
-
-
-        @*//No button.*@
-        <div class="hidden" id="no_Btn">
-            @*@using (Html.BeginForm("Fiszki", "Words"))*@
-            {
-                <input type="submit" href="#" value="NO" class="btn btn-default" 
-                       onclick="location.href='@Url.Action("FiszkiAfterNo", "Words")'" />
-            }
-        </div>
-
-
-
-        <script type="text/javascript">
-
-            var resultsDiv = document.getElementById('polishWord');
-            var resultsBtn = document.getElementById('check_Btn');
-
-            var yesBtn = document.getElementById('yes_Btn');
-            var noBtn = document.getElementById('no_Btn');
-
-
-            resultsBtn.onclick = function () {
-                
-                resultsDiv.setAttribute('class', 'visible');
-                resultsBtn.setAttribute('class', 'hidden');
-                yesBtn.setAttribute('class', 'visible');
-                noBtn.setAttribute('class', 'visible');
-            };
-
-            yesBtn.onclick = function () {
-                Html.ActionLink("some text", "Index", "Home");
-                RedirectToAction("Home", "Index");
-                Application["GlobalVar"] = 1234;
-            };
-            noBtn.onclick = function () {
-                return RedirectToAction("Index", "Home");
-            };
-
-
-        </script>
-        
     </div>
+
+    <div style="margin-top:2%;" class="col-md-2">
+        
+        <ul style="list-style-type:none;">
+            @*//Check button.*@
+            <div class="visible" id="check_Btn">
+                <input type="submit" value="CHECK" class="btn btn-default" />
+            </div>
+
+                <li>
+                    @*//Yes button.*@
+                    <div class="hidden" id="yes_Btn">
+                        <input type="submit" href="" value="YES" class="btn btn-default"
+                               onclick="location.href='@Url.Action("FiszkiAfterYes", "Words")'" />
+
+                    </div>
+                </li>
+
+                <li>
+                    @*//No button.*@
+                    <div class="hidden" id="no_Btn">
+                        @*@using (Html.BeginForm("Fiszki", "Words"))*@
+
+                        <input type="submit" href="#" value="NO" class="btn btn-default"
+                               onclick="location.href='@Url.Action("FiszkiAfterNo", "Words")'" />
+
+                    </div>
+
+                </li>
+            </ul>
+</div>
+
+</div>
+
+    <script type="text/javascript">
+
+        var resultsDiv = document.getElementById('polishWord');
+        var resultsBtn = document.getElementById('check_Btn');
+
+        var yesBtn = document.getElementById('yes_Btn');
+        var noBtn = document.getElementById('no_Btn');
+
+
+        resultsBtn.onclick = function () {
+
+            resultsDiv.setAttribute('class', 'visible');
+            resultsBtn.setAttribute('class', 'hidden');
+            yesBtn.setAttribute('class', 'visible');
+            noBtn.setAttribute('class', 'visible');
+        };
+
+        yesBtn.onclick = function () {
+            Html.ActionLink("some text", "Index", "Home");
+            RedirectToAction("Home", "Index");
+            Application["GlobalVar"] = 1234;
+        };
+        noBtn.onclick = function () {
+            return RedirectToAction("Index", "Home");
+        };
+
+
+    </script>
