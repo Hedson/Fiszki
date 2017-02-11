@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Fiszki.Data;
 using Fiszki.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Fiszki.Controllers
@@ -16,7 +17,8 @@ namespace Fiszki.Controllers
         private readonly WordContext _context;
         private static int score = 0;
         private static int hitPoints = 3;
-
+        const string SessionKeyScore = "5";
+        const string SessionKeyHitPoints = "3";
 
         public WordsController(WordContext context)
         {
@@ -31,17 +33,34 @@ namespace Fiszki.Controllers
 
         public async Task<IActionResult> Fiszki()
         {
-            if(hitPoints ==0)
+            int? number = HttpContext.Session.GetInt32(SessionKeyScore);
+
+            if (number.HasValue)
+                score = number.Value;
+
+
+            int? numberHP = HttpContext.Session.GetInt32(SessionKeyHitPoints);
+
+            if (numberHP.HasValue)
+                hitPoints = numberHP.Value;
+
+
+            if (hitPoints ==0)
             {
+
                 int tempScore = score;
                 score = 0;
                 hitPoints = 3;
+                HttpContext.Session.SetInt32(SessionKeyScore, score);
+                HttpContext.Session.SetInt32(SessionKeyHitPoints, hitPoints);
+
                 // Use REdirectToAction with new object as parametr, that object is used to crete or edit ranking user.
                 if (User.Identity.IsAuthenticated)
                 {
                     string Text = User.Identity.Name;   // Initialize string that is already logged user Email.
                     return RedirectToAction("CreateRank", "Words", new { Email = Text, Points = tempScore });
                 }
+                
             }
 
             ViewBag.Score = score.ToString();
@@ -49,7 +68,7 @@ namespace Fiszki.Controllers
             return View(await _context.Words.ToListAsync());
         }
 
-        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> CreateRank([Bind("ID,Email,Points")] Rank rank)
         {
             if (ModelState.IsValid)
@@ -64,12 +83,31 @@ namespace Fiszki.Controllers
 
         public ActionResult FiszkiAfterYes()
         {
+            //Create session
+            int? number = HttpContext.Session.GetInt32(SessionKeyScore);
+  
+            if (number.HasValue)
+                score = number.Value;
+
+            score++;  // Increment score var value
+      
+            HttpContext.Session.SetInt32(SessionKeyScore, score);
+
+        
             score++;
             return RedirectToAction("Fiszki", "Words");
         }
         public ActionResult FiszkiAfterNo()
         {
-            hitPoints--;
+            int? numberHP = HttpContext.Session.GetInt32(SessionKeyHitPoints);
+
+            if (numberHP.HasValue)
+                hitPoints = numberHP.Value;
+
+            hitPoints--;  // Increment score var value
+
+            HttpContext.Session.SetInt32(SessionKeyHitPoints, hitPoints);
+
             return RedirectToAction("Fiszki", "Words");
         }
 

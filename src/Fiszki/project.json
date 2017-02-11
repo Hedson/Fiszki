@@ -1,4 +1,4 @@
-﻿{
+{
   "userSecretsId": "aspnet-Fiszki-931a66d9-6337-4364-972a-ae51e15797d6",
 
   "dependencies": {
@@ -43,7 +43,8 @@
     "Microsoft.VisualStudio.Web.CodeGenerators.Mvc": {
       "version": "1.0.0-preview2-final",
       "type": "build"
-    }
+    },
+    "Microsoft.AspNetCore.Session": "1.0.0"
   },
 
   "tools": {

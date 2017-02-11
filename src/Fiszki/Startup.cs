@@ -52,6 +52,10 @@ namespace Fiszki
 
             services.AddMvc();
 
+            // For SESSION mechanism:
+            services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
+            services.AddSession();
+
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
@@ -77,6 +81,9 @@ namespace Fiszki
             app.UseStaticFiles();
 
             app.UseIdentity();
+
+            // IMPORTANT: This session call MUST go before UseMvc()
+            app.UseSession();
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
 
