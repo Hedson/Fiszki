@@ -120,7 +120,7 @@ namespace Fiszki.Controllers
 
             hitPoints--;  // Increment score var value
 
-            // Write local variable value(3) to session.
+            // Write local variable value(3) to the session.
             HttpContext.Session.SetInt32(SessionKeyHitPoints, hitPoints);
 
             //Return action Fiszki in controller Words.
