@@ -11,12 +11,12 @@ namespace Fiszki.Models
         public int ID { get; set; }
 
         [Display(Name = "Polish word:")]
-        [Required(ErrorMessage = "You have to write polish word:")]
+        [Required(ErrorMessage = "You have to enter polish word:")]
         [StringLength(50)]
         public string PolishWord { get; set; }
 
         [Display(Name = "English word:")]
-        [Required(ErrorMessage = "You have to write english word:")]
+        [Required(ErrorMessage = "You have to enter english word:")]
         [StringLength(50)]
         public string EnglishWord { get; set; }
 
